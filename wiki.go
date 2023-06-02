@@ -33,6 +33,11 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func deletePage(title string) error {
+	filename := "data/" + title + ".txt"
+	return os.Remove(filename)
+}
+
 func pageExists(title string) bool {
 	_, err := os.Stat("data/" + title + ".txt")
 	return err == nil
@@ -58,7 +63,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	}
 }
 
-var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9 ]+)$")
+var validPath = regexp.MustCompile("^/(edit|save|view|delete)/([a-zA-Z0-9 ]+)$")
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
@@ -86,6 +91,25 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 		return
 	}
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+}
+
+func deleteHandler(w http.ResponseWriter, r *http.Request, title string) {
+	if r.Method == "POST" {
+		err := deletePage(title)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, "/", http.StatusFound)
+	} else {
+		p, err := loadPage(title)
+		if err != nil {
+			http.NotFound(w, r)
+			return
+		}
+		renderTemplate(w, "confirm_delete", p)
+	}
 }
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
@@ -116,6 +140,7 @@ func main() {
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/delete/", makeHandler(deleteHandler))
 	http.HandleFunc("/static/", staticHandler())
 	http.HandleFunc("/", indexHandler())
 	log.Fatal(http.ListenAndServe(":8080", nil))

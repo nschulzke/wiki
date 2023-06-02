@@ -52,7 +52,12 @@ table {
 body {
     line-height: 1.2;
     font-family: 'Lato', sans-serif;
-    --color-primary: #00aaff;
+    --color-primary: #0088dd;
+    --color-primary-light: #00aaff;
+    --color-primary-dark: #0055aa;
+    --color-danger: #ff0000;
+    --color-danger-light: #ff3333;
+    --color-danger-dark: #cc0000;
 }
 
 main {
@@ -90,7 +95,9 @@ h1.page-title {
     font-weight: normal;
 }
 
-input[type="submit"], button {
+input[type="submit"], button, .button {
+    text-decoration: none;
+    color: white !important;
     font-size: 1rem;
     padding: 0.5rem 1rem;
     font-weight: normal;
@@ -98,6 +105,56 @@ input[type="submit"], button {
     border-radius: 0.25rem;
     background-color: var(--color-primary);
     cursor: pointer;
+}
+
+input[type="submit"]:hover, button:hover, .button:hover {
+    background-color: var(--color-primary-light);
+}
+
+input[type="submit"]:active, button:active, .button:active {
+    background-color: var(--color-primary-dark);
+}
+
+input[type="submit"]:focus, button:focus, .button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+input[type="submit"]:disabled, button:disabled, .button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+input[type="submit"]:disabled:hover, button:disabled:hover, .button:disabled:hover {
+    background-color: #ccc;
+}
+
+input[type="submit"]:disabled:active, button:disabled:active, .button:disabled:active {
+    background-color: #ccc;
+}
+
+input[type="submit"]:disabled:focus, button:disabled:focus, .button:disabled:focus {
+    color: white;
+    outline: none;
+    box-shadow: 0 0 0 2px #ccc;
+}
+
+input[type="submit"].danger, button.danger, .button.danger {
+    background-color: var(--color-danger);
+}
+
+input[type="submit"].danger:hover, button.danger:hover, .button.danger:hover {
+    background-color: var(--color-danger-light);
+}
+
+input[type="submit"].danger:active, button.danger:active, .button.danger:active {
+    background-color: var(--color-danger-dark);
+}
+
+input[type="submit"].danger:focus, button.danger:focus, .button.danger:focus {
+    color: white;
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-danger);
 }
 
 h2 {
