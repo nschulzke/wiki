@@ -1,0 +1,200 @@
+/**
+ * CSS Reset
+ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/**
+ * Styles
+ */
+
+body {
+    line-height: 1.2;
+    font-family: 'Lato', sans-serif;
+    --color-primary: #00aaff;
+}
+
+main {
+    padding: 2rem;
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+main.edit {
+    max-width: calc(60ch + 20px);
+}
+
+h1 {
+    line-height: inherit;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+h1.page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #ccc;
+    z-index: 10;
+    background-color: white;
+}
+
+.edit-link {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+input[type="submit"], button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-weight: normal;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: var(--color-primary);
+    cursor: pointer;
+}
+
+h2 {
+    line-height: inherit;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+h3 {
+    line-height: inherit;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+h4 {
+    line-height: inherit;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+p {
+    line-height: inherit;
+    margin-bottom: 1em;
+    text-align: justify;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+a {
+    text-decoration: underline;
+}
+
+a {
+    color: #0000ff;
+}
+
+a:visited {
+    color: #0000cc;
+}
+
+a:active {
+    color: #0000ff;
+}
+
+a:hover {
+    color: #000099;
+}
+
+a:focus {
+    color: #0000ff;
+}
+
+a.missing {
+    color: #ff0000;
+}
+
+a.missing:visited {
+    color: #cc0000;
+}
+
+a.missing:active {
+    color: #ff0000;
+}
+
+a.missing:hover {
+    color: #990000;
+}
+
+a.missing:focus {
+    color: #ff0000;
+}
+
+a.internal {
+    color: #00cc00;
+}
+
+a.internal:visited {
+    color: #009900;
+}
+
+a.internal:active {
+    color: #00cc00;
+}
+
+a.internal:hover {
+    color: #006600;
+}
+
+a.internal:focus {
+    color: #00cc00;
+}

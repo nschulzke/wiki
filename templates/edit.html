@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wiki — {{.Title}} — Editing</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/simplemde.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<main class="edit">
+    <form action="/save/{{.Title}}" method="POST">
+        <h1 class="page-title">Editing {{.Title}} <input type="submit" value="Save"></h1>
+        <div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
+    </form>
+</main>
+<script src="/static/simplemde.min.js"></script>
+<script>
+    var simplemde = new SimpleMDE({
+        indentWithTabs: false,
+    });
+</script>
+</body>
+</html>
