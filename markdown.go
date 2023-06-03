@@ -15,9 +15,9 @@ func mdToHTML(md []byte) template.HTML {
 		title := string(s[2 : len(s)-2])
 		pageExists := pageExists(title)
 		if !pageExists {
-			return []byte(`<a class="missing" href="/edit/` + title + `">` + title + `</a>`)
+			return []byte(`<a class="danger" href="/edit/` + title + `">` + title + `</a>`)
 		} else {
-			return []byte(`<a class="internal" href="/view/` + title + `">` + title + `</a>`)
+			return []byte(`<a class="success" href="/view/` + title + `">` + title + `</a>`)
 		}
 	})
 
