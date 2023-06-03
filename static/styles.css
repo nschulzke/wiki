@@ -267,7 +267,7 @@ h1.page-title {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     border-bottom: 1px solid var(--color-background-alt-1);
-    z-index: 10;
+    z-index: 5;
     background-color: var(--color-background);
 }
 
@@ -357,4 +357,120 @@ a:visited, a:active, a:focus {
 
 a:hover {
     color: var(--color-background-alt-2);
+}
+
+/* SimpleMDE Overrides */
+
+.CodeMirror {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border: 1px solid var(--color-background-alt-1);
+}
+
+.CodeMirror-fullscreen {
+    background: var(--color-background);
+}
+
+.editor-toolbar {
+    border-top: 1px solid var(--color-background-alt-1);
+    border-left: 1px solid var(--color-background-alt-1);
+    border-right: 1px solid var(--color-background-alt-1);
+    border-top-left-radius: var(--border-radius-amount);
+    border-top-right-radius: var(--border-radius-amount);
+}
+
+.editor-toolbar.fullscreen {
+    background: var(--color-background);
+}
+
+.editor-toolbar.fullscreen::before {
+    background: var(--color-background);
+}
+
+.editor-toolbar.fullscreen::after {
+    background: var(--color-background);
+}
+
+.editor-toolbar a {
+    --color-background: var(--color-gray-9);
+    --color-background-alt-1: var(--color-gray-8);
+    --color-background-alt-2: var(--color-gray-7);
+    color: var(--color-foreground-alt-1)!important;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-amount);
+}
+
+.editor-toolbar a.active,
+.editor-toolbar a:hover {
+    background: var(--color-background-alt-1);
+    border-color: var(--color-background-alt-2);
+}
+
+.editor-toolbar i.separator {
+    border-left: 1px solid var(--color-background-alt-1);
+    border-right: 1px solid var(--color-background-alt-1);
+}
+
+.editor-toolbar a.fa-header-x:after {
+    font-family: inherit;
+}
+
+.editor-toolbar.disabled-for-preview a:not(.no-disable) {
+    opacity: 0.25;
+    background: none;
+    border-color: transparent;
+}
+
+.editor-statusbar {
+    color: var(--color-foreground);
+}
+
+.editor-preview {
+    background: var(--color-background);
+}
+
+.editor-preview-side {
+    background: var(--color-background);
+    border: 1px solid #ddd;
+}
+
+.editor-preview pre,
+.editor-preview-side pre {
+    background: var(--color-background-alt-1);
+}
+
+.editor-preview table td,
+.editor-preview table th,
+.editor-preview-side table td,
+.editor-preview-side table th {
+    border: 1px solid var(--color-background-alt-1);
+}
+
+.CodeMirror .CodeMirror-code .cm-tag {
+    color: var(--color-success);
+}
+
+.CodeMirror .CodeMirror-code .cm-attribute {
+    color: var(--color-primary);
+}
+
+.CodeMirror .CodeMirror-code .cm-string {
+    color: var(--color-info);
+}
+
+.CodeMirror .CodeMirror-selected {
+    background: var(--color-background-alt-1);
+}
+
+.CodeMirror .CodeMirror-code .cm-comment {
+    background: rgba(0, 0, 0, .05);
+    border-radius: 2px;
+}
+
+.CodeMirror .CodeMirror-code .cm-link {
+    color: var(--color-primary);
+}
+
+.CodeMirror .CodeMirror-code .cm-url {
+    color: var(--color-primary);
 }
