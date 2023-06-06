@@ -2,31 +2,32 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 func backlinks(filename string) ([]string, error) {
-	files, err := os.ReadDir("data")
-	if err != nil {
-		return nil, err
-	}
-	links := []string{}
-	for _, file := range files {
+	var links []string
+	err := filepath.WalkDir("data", func(path string, file os.DirEntry, err error) error {
 		if file.IsDir() {
-			continue
+			return nil
 		}
-		if file.Name() == filename {
-			continue
+		if file.Name() == filename+".md" {
+			return nil
 		}
-		bareName := strings.TrimSuffix(file.Name(), ".md")
+		bareName := strings.TrimSuffix(path, ".md")
+		bareName = strings.TrimPrefix(bareName, "data/")
 		p, err := loadPage(bareName, false)
 		if err != nil {
-			return nil, err
+			return err
 		}
-		// Look for [[filename]] in the body of the page.
 		if strings.Contains(string(p.Body), "[["+filename+"]]") {
 			links = append(links, bareName)
 		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
 	}
 	return links, nil
 }

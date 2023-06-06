@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
@@ -44,17 +45,18 @@ func loadPage(title string, withBacklinks bool) (*Page, error) {
 }
 
 func listPages() ([]string, error) {
-	files, err := os.ReadDir("data")
+	var pages []string = nil
+	err := filepath.WalkDir("data", func(path string, file os.DirEntry, err error) error {
+		if file.IsDir() {
+			return nil
+		}
+		bareName := strings.TrimSuffix(path, ".md")
+		bareName = strings.TrimPrefix(bareName, "data/")
+		pages = append(pages, bareName)
+		return nil
+	})
 	if err != nil {
 		return nil, err
-	}
-	var pages []string = nil
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
-		bareName := strings.TrimSuffix(file.Name(), ".md")
-		pages = append(pages, bareName)
 	}
 	sort.Slice(pages, func(i, j int) bool {
 		return strings.ToLower(pages[i]) < strings.ToLower(pages[j])
@@ -92,7 +94,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	}
 }
 
-var validPath = regexp.MustCompile("^/(edit|save|view|delete)/([a-zA-Z0-9 ]+)$")
+var validPath = regexp.MustCompile("^/(edit|save|view|delete)/([a-zA-Z0-9/ ]+)$")
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title, true)
