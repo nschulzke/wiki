@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"sort"
+	"strings"
 )
 
 type Page struct {
@@ -39,6 +41,25 @@ func loadPage(title string, withBacklinks bool) (*Page, error) {
 		}
 	}
 	return &Page{Title: title, Body: body, Backlinks: bls}, nil
+}
+
+func listPages() ([]string, error) {
+	files, err := os.ReadDir("data")
+	if err != nil {
+		return nil, err
+	}
+	var pages []string = nil
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+		bareName := strings.TrimSuffix(file.Name(), ".md")
+		pages = append(pages, bareName)
+	}
+	sort.Slice(pages, func(i, j int) bool {
+		return strings.ToLower(pages[i]) < strings.ToLower(pages[j])
+	})
+	return pages, nil
 }
 
 func deletePage(title string) error {
@@ -139,7 +160,15 @@ func staticHandler() http.HandlerFunc {
 
 func indexHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/view/FrontPage", http.StatusFound)
+		pages, err := listPages()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		err = templates.ExecuteTemplate(w, "index.html", pages)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 }
 
