@@ -21,11 +21,32 @@ type Page struct {
 
 func (p *Page) save() error {
 	filename := "data/" + p.Title + ".md"
-	err := os.MkdirAll("data", 0700)
+	directory := filepath.Dir(filename)
+	err := os.MkdirAll(directory, 0700)
 	if err != nil {
 		return err
 	}
 	return os.WriteFile(filename, p.Body, 0600)
+}
+
+type Breadcrumb struct {
+	Display string
+	Title   string
+	Exists  bool
+}
+
+func (p *Page) Breadcrumbs() []Breadcrumb {
+	if strings.Contains(p.Title, "/") == false {
+		return nil
+	}
+	segments := strings.Split(p.Title, "/")[0 : len(strings.Split(p.Title, "/"))-1]
+	var breadcrumbs []Breadcrumb
+	for i, _ := range segments {
+		display := segments[i]
+		title := strings.Join(segments[0:i+1], "/")
+		breadcrumbs = append(breadcrumbs, Breadcrumb{Title: title, Display: display, Exists: pageExists(title)})
+	}
+	return breadcrumbs
 }
 
 func loadPage(title string, withBacklinks bool) (*Page, error) {

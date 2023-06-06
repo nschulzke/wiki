@@ -14,6 +14,18 @@
 <body>
 
 <main class="view">
+    {{if .Breadcrumbs}}
+        <ul class="breadcrumbs">
+            {{range .Breadcrumbs}}
+                <li>
+                    <a {{if .Exists}}class="success"{{else}}class="danger"{{end}}
+                       href="/view/{{.Title}}">
+                        {{.Display}}
+                    </a>
+                </li>
+            {{end}}
+        </ul>
+    {{end}}
     <h1 class="page-title">{{.Title}} <span class="edit-link">[<a href="/edit/{{.Title}}">edit</a>]</span></h1>
     <div>{{.Body | mdToHTML}}</div>
     <!-- For each backlink in .Backlinks -->
