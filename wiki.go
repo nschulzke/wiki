@@ -11,12 +11,13 @@ import (
 )
 
 type Page struct {
-	Title string
-	Body  []byte
+	Title     string
+	Body      []byte
+	Backlinks []string
 }
 
 func (p *Page) save() error {
-	filename := "data/" + p.Title + ".txt"
+	filename := "data/" + p.Title + ".md"
 	err := os.MkdirAll("data", 0700)
 	if err != nil {
 		return err
@@ -24,22 +25,29 @@ func (p *Page) save() error {
 	return os.WriteFile(filename, p.Body, 0600)
 }
 
-func loadPage(title string) (*Page, error) {
-	filename := "data/" + title + ".txt"
+func loadPage(title string, withBacklinks bool) (*Page, error) {
+	filename := "data/" + title + ".md"
 	body, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Title: title, Body: body}, nil
+	var bls []string = nil
+	if withBacklinks {
+		bls, err = backlinks(title)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return &Page{Title: title, Body: body, Backlinks: bls}, nil
 }
 
 func deletePage(title string) error {
-	filename := "data/" + title + ".txt"
+	filename := "data/" + title + ".md"
 	return os.Remove(filename)
 }
 
 func pageExists(title string) bool {
-	_, err := os.Stat("data/" + title + ".txt")
+	_, err := os.Stat("data/" + title + ".md")
 	return err == nil
 }
 
@@ -66,7 +74,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 var validPath = regexp.MustCompile("^/(edit|save|view|delete)/([a-zA-Z0-9 ]+)$")
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
-	p, err := loadPage(title)
+	p, err := loadPage(title, true)
 	if err != nil {
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
@@ -75,7 +83,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 }
 
 func editHandler(w http.ResponseWriter, _ *http.Request, title string) {
-	p, err := loadPage(title)
+	p, err := loadPage(title, true)
 	if err != nil {
 		p = &Page{Title: title}
 	}
@@ -103,7 +111,7 @@ func deleteHandler(w http.ResponseWriter, r *http.Request, title string) {
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	} else {
-		p, err := loadPage(title)
+		p, err := loadPage(title, true)
 		if err != nil {
 			http.NotFound(w, r)
 			return

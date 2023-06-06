@@ -16,6 +16,19 @@
 <main class="view">
     <h1 class="page-title">{{.Title}} <span class="edit-link">[<a href="/edit/{{.Title}}">edit</a>]</span></h1>
     <div>{{.Body | mdToHTML}}</div>
+    <!-- For each backlink in .Backlinks -->
+    {{if (and .Backlinks (gt (len .Backlinks) 0))}}
+        <div class="backlinks">
+            <h2>Backlinks</h2>
+            <ul>
+                {{range .Backlinks}}
+                    <li>
+                        <a class="success" href="/view/{{.}}">{{.}}</a>
+                    </li>
+                {{end}}
+            </ul>
+        </div>
+    {{end}}
 </main>
 
 </body>
