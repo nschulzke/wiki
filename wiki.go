@@ -41,7 +41,7 @@ func (p *Page) Breadcrumbs() []Breadcrumb {
 	}
 	segments := strings.Split(p.Title, "/")[0 : len(strings.Split(p.Title, "/"))-1]
 	var breadcrumbs []Breadcrumb
-	for i, _ := range segments {
+	for i := range segments {
 		display := segments[i]
 		title := strings.Join(segments[0:i+1], "/")
 		breadcrumbs = append(breadcrumbs, Breadcrumb{Title: title, Display: display, Exists: pageExists(title)})

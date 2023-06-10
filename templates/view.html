@@ -18,7 +18,7 @@
         <ul class="breadcrumbs">
             {{range .Breadcrumbs}}
                 <li>
-                    <a {{if .Exists}}class="success"{{else}}class="danger"{{end}}
+                    <a {{if .Exists}}class="success" {{else}}class="danger"{{end}}
                        href="/view/{{.Title}}">
                         {{.Display}}
                     </a>
